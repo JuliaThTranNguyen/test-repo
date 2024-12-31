@@ -1,0 +1,137 @@
+<mat-card *ngIf="cart.items.length" class="max-w-7xl mx-auto">
+  <!-- Table displaying cart items -->
+  <table mat-table [dataSource]="dataSource" class="w-full mat-elevation-z8">
+    <!-- Product Column -->
+    <ng-container matColumnDef="product">
+      <th mat-header-cell *matHeaderCellDef>Product</th>
+      <td mat-cell *matCellDef="let element">
+        <!-- Parent wrapper for group hover -->
+        <div class="group relative" routerLink="/home">
+          <!-- Image with hover effects -->
+          <img
+            src="{{ element.product }}"
+            alt="product"
+            class="w-[100px] my-5 transition-transform duration-300 ease-in-out transform group-hover:scale-110 group-hover:rotate-3"
+          />
+
+          <!-- Optional: Add overlay or caption on hover -->
+          <div
+            class="absolute inset-0 bg-black bg-opacity-30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out"
+          ></div>
+        </div>
+      </td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Name</th>
+      <td mat-cell *matCellDef="let element">
+        <span
+          class="truncate hover:text-blue-600 max-w-xs block"
+          routerLink="/home"
+        >
+          {{ element.name }}
+        </span>
+      </td>
+    </ng-container>
+
+    <!-- Price Column -->
+    <ng-container matColumnDef="price">
+      <th mat-header-cell *matHeaderCellDef>Price</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.price | currency : "€" }}
+      </td>
+    </ng-container>
+
+    <!-- Quantity Column -->
+    <ng-container matColumnDef="quantity">
+      <th mat-header-cell *matHeaderCellDef>Quantity</th>
+      <td mat-cell *matCellDef="let element">
+        <div class="flex items-center justify-left">
+          <button mat-icon-button (click)="onDecreaseQuantity(element)">
+            <mat-icon>remove</mat-icon>
+          </button>
+          {{ element.quantity }}
+          <button mat-icon-button (click)="onIncreaseQuantity(element)">
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+      </td>
+    </ng-container>
+
+    <!-- Total Column -->
+    <ng-container matColumnDef="total">
+      <th mat-header-cell *matHeaderCellDef>Total</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.price * element.quantity | currency : "€" }}
+      </td>
+    </ng-container>
+
+    <!-- Clear All Column -->
+    <ng-container matColumnDef="action">
+      <!-- Header Cell -->
+      <th mat-header-cell *matHeaderCellDef>
+        <div class="flex justify-end items-center">
+          <button
+            (click)="onClearCart()"
+            mat-raised-button
+            color="warn"
+            class="mr-2"
+          >
+            Clear All
+          </button>
+        </div>
+      </th>
+
+      <!-- Row Cell -->
+      <td mat-cell *matCellDef="let element">
+        <button
+          mat-mini-fab
+          color="warn"
+          class="flex float-right items-center mr-8"
+          (click)="onRemoveItem(element)"
+        >
+          <mat-icon>clear</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <!-- Table Header -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <!-- Table Row -->
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+
+  <!-- Row for displaying the total price -->
+  <div
+    class="mt-6 flex flex-col sm:flex-row justify-between items-center p-6 border-t border-gray-300 bg-gray-100 rounded-lg shadow-md"
+  >
+    <!-- Total Section -->
+    <div class="flex flex-col sm:flex-row items-center gap-2">
+      <span class="font-semibold text-xl text-blue-900">SubTotal:</span>
+      <span class="text-xl text-blue-800 font-bold hover:text-red-800">
+        {{ getTotal(cart.items) | currency : "€" }}
+      </span>
+    </div>
+
+    <div class="mt-4 sm:mt-0">
+      <button mat-raised-button (click)="onProceedToCheckout()">
+        Proceed to Checkout
+      </button>
+    </div>
+  </div>
+
+  <!-- Continue Shopping Button below the table -->
+  <div class="mt-4 text-center">
+    <button mat-raised-button routerLink="/home">Continue Shopping</button>
+  </div>
+</mat-card>
+
+<!-- Empty Cart message and Start Shopping Button -->
+<mat-card *ngIf="!cart.items.length" class="mx-auto my-3 max-w-7xl">
+  <!-- Continue Shopping Button below the table -->
+  <div class="mt-4 text-center flex justify-center">
+    <span> Your cart is empty.</span>
+    <button mat-raised-button routerLink="/home">Continue Shopping</button>
+  </div>
+</mat-card>

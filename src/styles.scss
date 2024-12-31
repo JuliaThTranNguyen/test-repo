@@ -1,0 +1,61 @@
+/* You can add global styles to this file, and also import other style files */
+/*Added: Tailwind CSS - Author: HienTran*/
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+/* Inside home.component.css or a relevant CSS file */
+
+/* Class for images inside mat-card */
+.image-style {
+  object-fit: cover; /* Ensure the image covers the container */
+  width: 100%; /* Fill the container */
+  height: 100%; /* Maintain height */
+  max-height: 200px; /* Optional: to restrict the image height */
+  border-radius: 8px; /* Optional: to round corners */
+}
+
+
+/* Light Theme (default) */
+:root {
+  --background-color: #ffffff;
+  --text-color: #000000;
+}
+
+/* Dark Theme */
+.dark-theme {
+    --background-color: #181818; 
+    --background-color2:rgb(116, 163, 181); /* Deep dark background */
+    --card-background: #222222;  /* Darker background for cards */
+    --text-color: rgb(49, 165, 237);        /* Soft light text color */
+    --accent-color: #90caf9;      /* Light blue accent color */
+    --hover-color: #63a4ff;       /* Lighter blue for hover effects */
+    --link-hover-color: #1e88e5;  /* Blue for links when hovered */
+    
+
+  /* Material overrides */
+  /* Apply variables globally */
+body {
+    * {
+        background-color: var(--background-color);
+        text-emphasis-color:var(--text-color);
+        color: var(--text-color);
+        transition: background-color 0.3s, color 0.3s ease;
+    }
+    .button,.mat-list-option, .mat-selection-list, .mat-expansion-panel {
+        color: var(--text-color);
+    }
+}
+
+
+}
+

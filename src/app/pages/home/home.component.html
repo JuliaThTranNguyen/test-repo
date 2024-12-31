@@ -1,0 +1,40 @@
+<mat-drawer-container
+  [autosize]="true"
+  class="h-screen max-w-7xl mx-auto border-x"
+>
+  <mat-drawer mode="side" opened class="p-6">
+    <app-filters (showCategory)="onShowCategory($event)"></app-filters>
+  </mat-drawer>
+
+  <mat-drawer-content class="pt-7">
+    <app-product-header
+    (updatedLayout)="onUpdatedLayout($event)"
+    (sortChanged)="onSortChanged($event)" 
+  ></app-product-header>
+  
+
+    <mat-grid-list 
+    *ngIf="products && products.length > 0"
+    gutterSize="16" [cols]="cols" [rowHeight]="rowHeight">
+      <mat-grid-tile *ngFor="let product of pagedProducts">
+        <app-product-card
+          (addToCart)="onAddToCart($event)"
+          [product]="product"
+          class="w-full"
+          [fullWidthMode]="cols === 1"
+        ></app-product-card>
+      </mat-grid-tile>
+    </mat-grid-list>
+
+        <!-- Add paginator at the bottom -->
+        <mat-paginator
+        class="mt-20"
+        [length]="totalItems"
+        [pageSize]="pageSize"
+        [pageSizeOptions]="[ 12, 18, 24, 30]"
+        (page)="onPageChange($event)"
+        aria-label="Select page"
+      ></mat-paginator>
+
+  </mat-drawer-content>
+</mat-drawer-container>
